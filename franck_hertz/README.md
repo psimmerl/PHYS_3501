@@ -1,4 +1,4 @@
-#Franck-Hertz Experiment
+# Franck-Hertz Experiment
 
 Plot usng 
 
