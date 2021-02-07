@@ -4,7 +4,7 @@
 
 Packages needed:
 
-*Python3
-*SciPy
-*NumPy
-*MatPlotLib
+* Python3
+* SciPy
+* NumPy
+* MatPlotLib
