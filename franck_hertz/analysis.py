@@ -15,7 +15,7 @@ plt.ion()
 # Read Data
 #file_name = '/run/media/psimmerl/3501_data/NewFile8.csv' #'/home/psimmerl/Downloads/break_179158.csv'
 
-mypath = '/run/media/psimmerl/3501_data/'
+mypath = 'data/'
 files = [f for f in os.listdir(mypath) if (os.path.isfile(os.path.join(mypath, f)) and '.csv' in f)]
 #n = int(np.ceil(np.sqrt(len(files))))
 #fig, axs = plt.subplots(n,n)
@@ -30,12 +30,13 @@ for f in range(len(files)):
     #r, c = int(np.floor(f/n)), f % n
 
     # Visualize Data
-    t, d = data[:,0], data[:,1]
+    t, d = data[:,0]*10, data[:,1]
     #ax=axs[r,c]
     plt.figure(f)
     plt.scatter(t,d)
-    plt.xlabel('Accelerating Voltage (V/10)')
-    plt.title(f)
+    plt.xlabel('Accelerating Voltage (V)')
+    plt.ylabel('Measured Voltage (Arbitary)')
+    plt.title(files[f])
     #plt.xlim([0, 8])
     plt.grid(True)
     plt.show()
