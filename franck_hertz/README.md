@@ -15,7 +15,7 @@ Some of the data have two response curves. These files need to be split into two
 
 The hot electrons from the cathode should be a fermi-dirac distribution (need citation just guessing)
 
-![fermi](https://latex.codecogs.com/svg.latex?\large&space;n=\frac{1}{e^{(\varepsilon-\mu)/\tau}+1}) 
+![fermi](https://latex.codecogs.com/svg.latex?\large&space;N=\frac{1}{e^{(\varepsilon-\mu)/\tau}+1}) 
 
 The franck-hertz behavior should be a sawtooth wave with a drop at n*4.9V, n=1,2,3,... (need citation)
 
@@ -24,9 +24,9 @@ The franck-hertz behavior should be a sawtooth wave with a drop at n*4.9V, n=1,2
 
 We can combine these response characteristics using a convolution
 
-![v1a](https://latex.codecogs.com/svg.latex?\large&space;V_1(v)=n*ST=\int_0^\infty\frac{1}{e^{(v-\nu-\mu)/\tau}+1}\sum_{n=0}^N\frac{a\nu-n\cdot~E}{E}\cdot(u(\nu-n\cdot~E)-u(\nu-(n+1)\cdot~E))d\nu) 
+![v1a](https://latex.codecogs.com/svg.latex?\large&space;V_1(v)=N*ST=\int_0^\infty\frac{1}{e^{(v-\nu-\mu)/\tau}+1}\sum_{n=0}^N\frac{a\nu-n\cdot~E}{E}\cdot(u(\nu-n\cdot~E)-u(\nu-(n+1)\cdot~E))d\nu) 
 
-![v1b](https://latex.codecogs.com/svg.latex?\large&space;V_1(v)=n*ST=\sum_{n=0}^N\int_{n\cdot~E}^{(n+1)\cdot~E}\frac{\frac{a}{E}\nu-n}{e^{(v-\nu-\mu)/\tau}+1}d\nu)
+![v1b](https://latex.codecogs.com/svg.latex?\large&space;V_1(v)=N*ST=\sum_{n=0}^N\int_{n\cdot~E}^{(n+1)\cdot~E}\frac{\frac{a}{E}\nu-n}{e^{(v-\nu-\mu)/\tau}+1}d\nu)
 
 We also know the plasma current is exponential (need citation)
 
@@ -41,7 +41,7 @@ We can combine this response with our fermi distribution and franck-hertz using 
 
 Finally we can add the background current in
 
-![v](https://latex.codecogs.com/svg.latex?\large&space;V(v)=A\cdot~n(v;\mu,\tau)*ST(v;a,E)*I_1(v;c_1,k_1,d_1)+I_2(v;c_2,k_2,d_2))
+![v](https://latex.codecogs.com/svg.latex?\large&space;V(v)=A\cdot~N(v;\mu,\tau)*ST(v;a,E)*I_1(v;c_1,k_1,d_1)+I_2(v;c_2,k_2,d_2))
 
 with the parameters
 
