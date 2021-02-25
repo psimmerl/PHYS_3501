@@ -16,7 +16,7 @@ def norm(A):
     return (A-np.min(A))/(np.max(A)-np.min(A))
 
 def myplot(*args, ax=None, title='', xlabel='Accelerating Voltage (V)', \
-        ylabel='Measured Voltage (Arbitary)', xlim=[0,80], ylim=[0,1], xdv=5, legend=[]):
+        ylabel='', xlim=[0,80], ylim=[0,1], xdv=5, legend=[]):
     if ax is None:
         plt.clf()
         plt.figure()
