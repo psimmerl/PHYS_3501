@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 import scipy as sp
+from scipy import signal
 from scipy.integrate import quad, dblquad, nquad
 from matplotlib.widgets import Slider, Button
 
@@ -14,7 +15,7 @@ mpl.rc('ytick', labelsize=12)
 mpl.rc('lines', markersize=2)
 plt.ion()
 
-a,E,mu,tau,c,k,tol=1,5,2.5,1/20,1,-4,-2
+a,E,mu,tau,c,k,tol=1,5,2.5,1/5,1,-4,-1
 
 def sawtooth(x, a=a, E=E):
     return a/E*x-np.floor(x/E)
@@ -23,12 +24,12 @@ def fermi(x, mu=mu, tau=tau):
     return 1/(np.exp((x-mu)/tau)+1)
 
 def current(x, c=c, k=k):
-    return c*np.exp(k*x)
+    return c*x+k#c*np.exp(k*x)
 
 def norm(A):
     return (A-np.min(A))/(np.max(A)-np.min(A))
 
-vmin, vmax, dv = 0, 80, 1
+vmin, vmax, dv = 0, 80, 0.1
 
 v = np.arange(vmin, vmax+dv, dv)
 
@@ -61,7 +62,7 @@ def myplot(*args, ax=None, legend=[], title="", xlim=[vmin,vmax],ylim=[0,1], xdv
 
 
 data = pd.read_csv('data/good/NewFile7.csv').to_numpy()
-data = data[1:,:].astype(np.float)
+data = data[1:,:].astype(float)
 t, d = data[:,0]*10, norm(data[:,1])
 
 zs  = np.zeros(np.size(v))
@@ -95,30 +96,37 @@ def vfi(v=v,mu=mu,tau=tau,c=c,k=k,tol=tol):
             vmin, v, epsabs=tol, epsrel=tol)[0]
 
 def update(val):
-    a,E,mu,tau,k=sa.val,sE.val,smu.val,stau.val,10**(sk.val)
-    c=1#sc.val,sd.val
+    E,mu,tau,k=sE.val,smu.val,stau.val,10**(sk.val)
+    c=sc.val#,sd.val,sa.val,a,
+    a=1
     tol=10**(stol.val)#10e-4
     S, N, I = norm(sawtooth(v,a,E)), norm(fermi(v,mu,tau)), norm(current(v,c,k))
     
-    #Sf, Nf, If = np.fft.rfft(S), np.fft.rfft(N), np.fft.rfft(I)
+    # Sf, Nf, If = np.fft.rfft(S), np.fft.rfft(N), np.fft.rfft(I)
 
-    VSFI_fft = zs#norm(np.fft.irfft(Sf*Nf*If, np.size(v)))
-    #VSF_fft  = norm(np.fft.irfft(Sf*Nf, np.size(v)))
-    #VSI_fft  = norm(np.fft.irfft(Sf*If, np.size(v)))
-    #VFI_fft  = norm(np.fft.irfft(Nf*If, np.size(v)))
+    # VSFI_fft = norm(np.fft.irfft(Sf*Nf*If, np.size(v)))
+    # VSF_fft  = norm(np.fft.irfft(Sf*Nf, np.size(v)))
+    # VSI_fft  = norm(np.fft.irfft(Sf*If, np.size(v)))
+    # VFI_fft  = norm(np.fft.irfft(Nf*If, np.size(v)))
 
-    vsfi2 = partial(vsfi, a=a,E=E,mu=mu,tau=tau,c=c,k=k,tol=tol)
-    vsf2 = partial(vsf, a=a,E=E,mu=mu,tau=tau,tol=tol)
-    vsi2 = partial(vsi, a=a,E=E,c=c,k=k,tol=tol)
-    vfi2 = partial(vfi, mu=mu,tau=tau,c=c,k=k,tol=tol)
+    # vsfi2 = partial(vsfi, a=a,E=E,mu=mu,tau=tau,c=c,k=k,tol=tol)
+    # vsf2 = partial(vsf, a=a,E=E,mu=mu,tau=tau,tol=tol)
+    # vsi2 = partial(vsi, a=a,E=E,c=c,k=k,tol=tol)
+    # vfi2 = partial(vfi, mu=mu,tau=tau,c=c,k=k,tol=tol)
     
-    with Pool(8) as p:
-        VSFI = p.map(vsfi2,v)
-        VSF = zs#p.map(vsf2,v)
-        VSI = zs#p.map(vsi2,v)
-        VFI = zs#p.map(vfi2,v)
+    # with Pool(8) as p:
+    #     VSFI = p.map(vsfi2,v)
+    #     VSF = p.map(vsf2,v)
+    #     VSI = p.map(vsi2,v)
+    #     VFI = p.map(vfi2,v)
 
-    VSFI, VSF, VSI, VFI = norm(VSFI), norm(VSF), norm(VSI), norm(VFI)
+    # VSFI, VSF, VSI, VFI = norm(VSFI), norm(VSF), norm(VSI), norm(VFI)
+    # VSFI, VSF, VSI, VFI = VSFI_fft, VSF_fft, VSI_fft, VFI_fft
+    VSFI = norm(signal.fftconvolve(S, signal.fftconvolve(N, I, 'same'), 'same'))
+    VSF = norm(signal.fftconvolve(S, N, 'same'))
+    VSI = norm(signal.fftconvolve(S, I, 'same'))
+    VFI = norm(signal.fftconvolve(N, I, 'same'))   
+
 
     p0[0].set_ydata(N)
     p0[1].set_ydata(I)
@@ -127,23 +135,23 @@ def update(val):
     p1[1].set_ydata(VSI)
     p1[2].set_ydata(VFI)
     p2[0].set_ydata(VSFI)
-    p2[1].set_ydata(VSFI_fft)
+    #p2[1].set_ydata(VSFI_fft)
     fig.canvas.draw_idle()
 
 axtol  = plt.axes([0.07, 0.11, 0.85, 0.01])
-axa   = plt.axes([0.07, 0.09, 0.85, 0.01])
+#axa   = plt.axes([0.07, 0.09, 0.85, 0.01])
 axE   = plt.axes([0.07, 0.07, 0.85, 0.01])
 axmu  = plt.axes([0.07, 0.05, 0.85, 0.01])
 axtau = plt.axes([0.07, 0.03, 0.85, 0.01])
-#axc   = plt.axes([0.07, 0.05, 0.85, 0.01])
+axc   = plt.axes([0.07, 0.09, 0.85, 0.01])
 axk   = plt.axes([0.07, 0.01, 0.85, 0.01])
 
 stol = Slider(axtol, 'log(tol)', -8, 0, valinit=tol)
-sa   = Slider(axa, 'a', 0, 5, valinit=a)
+#sa   = Slider(axa, 'a', 0, 5, valinit=a)
 sE   = Slider(axE, 'E', 0.1, 10, valinit=E)
 smu  = Slider(axmu, 'mu', 0, 10, valinit=mu)
 stau = Slider(axtau, 'tau', 0.001, 3, valinit=tau)
-#sc   = Slider(axc, 'c', 0, 10.0, valinit=c)
+sc   = Slider(axc, 'c', 0, 10.0, valinit=c)
 sk   = Slider(axk, 'log(k)', -8, 1.0, valinit=k)
 
 
@@ -153,19 +161,19 @@ button = Button(resetax, 'Reset', hovercolor='0.975')
 
 def reset(event):
     stol.reset()
-    sa.reset()
+    #sa.reset()
     sE.reset()
     smu.reset()
     stau.reset()
-    #sc.reset()
+    sc.reset()
     sk.reset()
 
 stol.on_changed(update)
-sa.on_changed(update)
+#sa.on_changed(update)
 sE.on_changed(update)
 smu.on_changed(update)
 stau.on_changed(update)
-#sc.on_changed(update)
+sc.on_changed(update)
 sk.on_changed(update)
 
 button.on_clicked(reset)

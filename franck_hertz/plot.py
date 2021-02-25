@@ -21,7 +21,7 @@ for f in range(len(files)):
     file_name = os.path.join(mypath, files[f])
     data = pd.read_csv(file_name).to_numpy()
 
-    data = data[1:,:].astype(np.float)
+    data = data[1:,:].astype(float)
     
     #r, c = int(np.floor(f/n)), f % n
 
