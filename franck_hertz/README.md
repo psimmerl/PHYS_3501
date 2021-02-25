@@ -7,15 +7,34 @@ Plot using
 python3 plot.py
 ```
 
-Should see that some of the files have a Franck-Hertz response.
+<!-- Should see that some of the files have a Franck-Hertz response. -->
 
 Some of the data have two response curves. These files need to be split into two different files for analysis. (e.g. extract all events > V_ave and export to separate file)
 
-## Possible Model
+## Some initial measurements using a spline
 
-The hot electrons from the cathode should be a fermi-dirac distribution (need citation just guessing)
+```bash
+python3 interpolate_many.py
+```
 
-![fermi](https://latex.codecogs.com/svg.latex?\large&space;N=\frac{1}{e^{(\varepsilon-\mu)/\tau}+1}) 
+
+Run Number | Mean | STD
+-----------|------|-----
+ 2 | 5.261882478016136 | 0.09231950981423502
+ 6 | 4.833048183719448 | 0.21530869148559717
+ 7 | 5.012456985251546 | 0.15140340270315178
+ 8 | 4.886712433315185 | 0.24433350266963855
+ 9 | 4.738020099832852 | 0.3459939469783181
+10 | 5.221947297309619 | 0.0
+23 | 5.037023842208447 | 0.3469290648357681
+24 | 4.701701943223213 | 0.0
+25 | 4.850574143585021 | 0.3687923148186916
+
+Need to redo this and find the best spline for each set of data instead of trying one accuracy value.
+
+<!-- !The hot electrons from the cathode should be a fermi-dirac distribution (need citation just guessing)
+
+[fermi](https://latex.codecogs.com/svg.latex?\large&space;N=\frac{1}{e^{(\varepsilon-\mu)/\tau}+1}) 
 
 The franck-hertz behavior should be a sawtooth wave with a drop at n*4.9V, n=1,2,3,... (need citation)
 
@@ -62,8 +81,8 @@ Use model.py to visualize the model
 
 ```bash
 python3 model.py
-```
-
+``` -->
+<!-- 
 ## Data Cleaning
 
 Cut data at V<0. some files need to be split into two responses
@@ -74,4 +93,4 @@ Use scipy
 ```bash
 fit.py
 ```
-
+ -->
