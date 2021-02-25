@@ -98,5 +98,5 @@ for f in range(len(files)):
         for r in roots:
             axs[int(np.floor(f/cols)),f%cols].axvline(x=r, linestyle='--', color='r', alpha=0.3)
 
-
+plt.savefig("manyplot.png")
 input("Press Enter to continue...")

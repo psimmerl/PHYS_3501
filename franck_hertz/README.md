@@ -32,6 +32,10 @@ Run Number | Mean | STD
 
 Need to redo this and find the best spline for each set of data instead of trying one accuracy value.
 
+![alt text](https://github.com/psimmerl/PHYS_3501/blob/main/manyplot.png?raw=true)
+
+
+
 <!-- !The hot electrons from the cathode should be a fermi-dirac distribution (need citation just guessing)
 
 [fermi](https://latex.codecogs.com/svg.latex?\large&space;N=\frac{1}{e^{(\varepsilon-\mu)/\tau}+1}) 
