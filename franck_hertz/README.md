@@ -30,9 +30,9 @@ Run Number | Mean | STD
 24 | 4.701701943223213 | 0.0
 25 | 4.850574143585021 | 0.3687923148186916
 
-Need to redo this and find the best spline for each set of data instead of trying one accuracy value.
+**See manyplot.png
 
-![alt text](https://https://github.com/psimmerl/PHYS_3501/blob/main/franck_hertz/manyplot.png?raw=true)
+Need to redo this and find the best spline for each set of data instead of trying one accuracy value.
 
 
 
