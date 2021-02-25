@@ -46,10 +46,7 @@ def myplot(*args, ax=None, title='', xlabel='Accelerating Voltage (V)', \
     return k
 
 def ss(string):
-    sum = 0
-    for s in string:
-        sum += ord(s)
-    return sum
+    return sum(map(ord, string))
 
 mypath = 'data/good/'
 
