@@ -32,7 +32,7 @@ Run Number | Mean | STD
 
 Need to redo this and find the best spline for each set of data instead of trying one accuracy value.
 
-![alt text](https://github.com/psimmerl/PHYS_3501/blob/main/manyplot.png?raw=true)
+![alt text](https://https://github.com/psimmerl/PHYS_3501/blob/main/franck_hertz/manyplot.png?raw=true)
 
 
 
