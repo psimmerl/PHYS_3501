@@ -30,6 +30,10 @@ Run Number | Mean | STD
 24 | 4.701701943223213 | 0.0
 25 | 4.850574143585021 | 0.3687923148186916
 
+Overal:
+
+    Mean = 4.906319020637042, STD = 0.3027873854324646
+
 **See manyplot.png
 
 Need to redo this and find the best spline for each set of data instead of trying one accuracy value.

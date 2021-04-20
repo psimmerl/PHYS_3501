@@ -57,6 +57,8 @@ fig, axs = plt.subplots(rows, cols, figsize=(16, 9))
 # plt.subplots_adjust(left=0.05,right=0.98,bottom=0.05,top=0.95)
 
 
+dr_many = np.array([])
+
 for f in range(len(files)):
     # print(files[f])
     file_name = os.path.join(mypath, files[f])
@@ -89,11 +91,16 @@ for f in range(len(files)):
     # print(roots)
     # print(np.diff(roots))
     dr_cut = np.array([dr for dr in np.diff(roots) if dr < 5.5 and dr > 4.1])
-    if len(dr_cut)>0:
+    if len(dr_cut)>1:
+        dr_many = np.append(dr_many, dr_cut)
         mean, std = np.mean(dr_cut), np.std(dr_cut)
         print(f"{file_name} | {mean} | {std}")
+        prev_root = 0
         for r in roots:
-            axs[int(np.floor(f/cols)),f%cols].axvline(x=r, linestyle='--', color='r', alpha=0.3)
+            if r - prev_root < 5.5 and r - prev_root > 4.1:
+                axs[int(np.floor(f/cols)),f%cols].axvline(x=r, linestyle='--', color='r', alpha=0.3)
+            prev_root = r
 
 plt.savefig("manyplot.png")
+print(f"Mean = {np.mean(dr_many)}, STD = {np.std(dr_many)}")
 input("Press Enter to continue...")

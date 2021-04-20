@@ -6,10 +6,17 @@ from scipy.interpolate import UnivariateSpline
 # Make plots readable
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-mpl.rc('axes', labelsize=14)
-mpl.rc('xtick', labelsize=12)
-mpl.rc('ytick', labelsize=12)
-mpl.rc('lines', markersize=5)
+# mpl.rc('axes', labelsize=24)
+# mpl.rc('xtick', labelsize=20)
+# mpl.rc('ytick', labelsize=20)
+# mpl.rc('lines', markersize=5)
+# mpl.rc('figure', titlesize=100)
+
+font = {'family' : 'DejaVu Sans',
+        'weight' : 'bold',
+        'size'   : 22}
+
+mpl.rc('font', **font)
 plt.ion()
 
 def norm(A):
@@ -50,7 +57,7 @@ fig, axs = plt.subplots(1, 1, figsize=(10,6))
 # plt.subplots_adjust(left=0.05,right=0.98,bottom=0.05,top=0.95)
 
 
-data = pd.read_csv('data/good/NewFile7.csv').to_numpy()[1:,:].astype(float)
+data = pd.read_csv('data/good/NewFile10.csv').to_numpy()[1:,:].astype(float)
 data = data[data[:,0].argsort()][200:, :]
 
 s, k = 0, 0
@@ -80,5 +87,6 @@ for r in roots:
     plt.axvline(x=r, linestyle='--', color='r', alpha=0.3)
 
 
+plt.savefig("oneplot10.png")
 
 input("Press Enter to continue...")
