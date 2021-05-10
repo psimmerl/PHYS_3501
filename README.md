@@ -4,11 +4,11 @@
 
 Instructor: Professor Ilya Sochnikov
 
-Lab Partner: Joshua Bedard
-
 Packages needed:
 
 * Python3
 * SciPy
 * NumPy
+* Pandas
+* IPython
 * MatPlotLib
